@@ -11,7 +11,7 @@ import com.amazonaws.services.ec2.model.InstanceType;
 
 public class LocalApplication {
     private static String THREE_GRAM_HEBREW = "s3://datasets.elasticmapreduce/ngrams/books/20090715/heb-all/3gram/data";
-    private static String BUCKET_NAME = "bucketqoghawn0ehuw2njlvyexsmxt5dczxfwc";
+    private static String BUCKET_NAME = "bucketqoghawn0ehuw2njlvyexsmxt5dczxfwca";
     private static String KEY_PAIR;
 
 
@@ -34,9 +34,9 @@ public class LocalApplication {
         AmazonElasticMapReduce emr = AmazonElasticMapReduceClient.builder().standard().withRegion(Regions.US_EAST_1).build();
 
         HadoopJarStepConfig hadoopJarStep = new HadoopJarStepConfig()
-                .withJar("s3n://" + BUCKET_NAME + "/Extractor.jar") // TODO: Change the jar name according to our name
-                .withMainClass("LocalApplication.jar") // TODO: Change to the extract colletion
-                .withArgs("s3n://" + BUCKET_NAME + "/input.txt", "s3n://" + BUCKET_NAME + "/output/"); //TODO: change to output requested name
+                .withJar("s3n://" + BUCKET_NAME + "/Extractor.jar")
+                .withMainClass("LocalApplication")
+                .withArgs("s3n://" + BUCKET_NAME + "/input.txt", "s3n://" + BUCKET_NAME + "/output/");
 
         StepConfig stepConfig = new StepConfig()
                 .withName("stepname")
@@ -48,7 +48,7 @@ public class LocalApplication {
                 .withMasterInstanceType(InstanceType.M4Large.toString())
                 .withSlaveInstanceType(InstanceType.M4Large.toString())
                 .withHadoopVersion("2.6.0")
-                .withEc2KeyName("Ass1") //TODO: Maybe need to change
+                .withEc2KeyName("Ass2")
                 .withKeepJobFlowAliveWhenNoSteps(false)
                 .withPlacement(new PlacementType("us-east-1a"));
 

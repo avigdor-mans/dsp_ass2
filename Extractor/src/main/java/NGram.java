@@ -9,36 +9,24 @@ import java.util.Objects;
 
 public class NGram implements WritableComparable<NGram> {
     private Text w1, w2, w3;
-    private LongWritable counter;
+    private LongWritable firstHalfCounter, secondHalfCounter, percent;
 
     public NGram() {
         this.w1 = new Text();
         this.w2 = new Text();
         this.w3 = new Text();
-        this.counter = new LongWritable();
+        this.firstHalfCounter = new LongWritable();
+        this.secondHalfCounter = new LongWritable();
+        this.percent = new LongWritable();
     }
 
-    public NGram(Text w1, Text w2, Text w3, LongWritable counter) {
+    public NGram(Text w1, Text w2, Text w3) {
         this.w1 = w1;
         this.w2 = w2;
         this.w3 = w3;
-        this.counter = counter;
-    }
-
-    public Text getW1() {
-        return w1;
-    }
-
-    public Text getW2() {
-        return w2;
-    }
-
-    public Text getW3() {
-        return w3;
-    }
-
-    public LongWritable getCounter() {
-        return counter;
+        this.firstHalfCounter = new LongWritable();
+        this.secondHalfCounter = new LongWritable();
+        this.percent = new LongWritable();
     }
 
     public int compareTo(NGram o) {
@@ -52,7 +40,7 @@ public class NGram implements WritableComparable<NGram> {
             return cW2;
         }
         else{
-            return this.counter.compareTo(o.getCounter());
+            return this.percent.compareTo(o.getPercent());
         }
     }
 
@@ -61,7 +49,9 @@ public class NGram implements WritableComparable<NGram> {
         this.w1.write(dataOutput);
         this.w2.write(dataOutput);
         this.w3.write(dataOutput);
-        this.counter.write(dataOutput);
+        this.firstHalfCounter.write(dataOutput);
+        this.secondHalfCounter.write(dataOutput);
+        this.percent.write(dataOutput);
     }
 
     @Override
@@ -69,7 +59,9 @@ public class NGram implements WritableComparable<NGram> {
         this.w1.readFields(dataInput);
         this.w2.readFields(dataInput);
         this.w3.readFields(dataInput);
-        this.counter.readFields(dataInput);
+        this.firstHalfCounter.readFields(dataInput);
+        this.secondHalfCounter.readFields(dataInput);
+        this.percent.readFields(dataInput);
     }
 
     @Override
@@ -87,8 +79,7 @@ public class NGram implements WritableComparable<NGram> {
         return
                 w1.toString() +
                 "\t" + w2.toString() +
-                "\t" + w3.toString() +
-                "\t" + counter.toString() + "\n";
+                "\t" + w3.toString();
     }
 
     public void setW1(Text w1) {
@@ -103,9 +94,30 @@ public class NGram implements WritableComparable<NGram> {
         this.w3 = w3;
     }
 
-    public void setCounter(LongWritable counter) {
-        this.counter = counter;
+    public void setFirstHalfCounter(LongWritable firstHalfCounter) { this.firstHalfCounter = firstHalfCounter; }
+
+    public void setSecondHalfCounter(LongWritable secondHalfCounter) { this.secondHalfCounter = secondHalfCounter; }
+
+    public void setPercent(LongWritable percent) { this.percent = percent; }
+
+    public Text getW1() {
+        return w1;
     }
+
+    public Text getW2() {
+        return w2;
+    }
+
+    public Text getW3() {
+        return w3;
+    }
+
+    public LongWritable getFirstHalfCounter() { return firstHalfCounter; }
+
+    public LongWritable getSecondHalfCounter() { return secondHalfCounter; }
+
+    public LongWritable getPercent() { return percent; }
+
 
     @Override
     public int hashCode() {
